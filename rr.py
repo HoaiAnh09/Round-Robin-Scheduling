@@ -73,7 +73,7 @@ def start_round_robin():
         
         # Hiển thị kết quả trong bảng
         for process in results:
-            result_table.insert("", "end", values=(process.process_id, process.burst_time, process.waiting_time, process.completion_time))
+            result_table.insert("", "end", values=(process.process_id, process.burst_time, process.arrival_time, process.completion_time, process.waiting_time))
         
     except ValueError:
         messagebox.showerror("Lỗi", "Vui lòng nhập giá trị hợp lệ!")
@@ -135,12 +135,13 @@ reset_button = tk.Button(root, text="Đặt lại", command=reset_form)
 reset_button.grid(row=3+11, column=1, pady=10)
 
 # Bảng hiển thị kết quả
-result_table = ttk.Treeview(root, columns=("Process ID", "Burst Time", "Waiting Time", "Completion Time"), show="headings", height=8)
+result_table = ttk.Treeview(root, columns=("Process ID", "Burst Time", "Arrival Time", "Completion Time", "Waiting Time"), show="headings", height=8)
 result_table.heading("Process ID", text="Process ID")
 result_table.heading("Burst Time", text="Burst Time")
-result_table.heading("Waiting Time", text="Waiting Time")
+result_table.heading("Arrival Time", text="Arrival Time")
 result_table.heading("Completion Time", text="Completion Time")
-result_table.grid(row=4+10, column=0, columnspan=4, padx=10, pady=10)
+result_table.heading("Waiting Time", text="Waiting Time")
+result_table.grid(row=4+10, column=0, columnspan=5, padx=10, pady=10)
 
 # Chạy chương trình
 root.mainloop()
