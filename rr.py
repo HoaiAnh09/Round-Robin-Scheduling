@@ -71,9 +71,18 @@ def start_round_robin():
         # Thực hiện thuật toán Round Robin
         results = round_robin(processes, time_quantum)
         
-        # Hiển thị kết quả trong bảng
+        total_waiting_time = 0
+        
+        # Hiển thị kết quả trong bảng và tính tổng thời gian chờ
         for process in results:
             result_table.insert("", "end", values=(process.process_id, process.burst_time, process.arrival_time, process.completion_time, process.waiting_time))
+            total_waiting_time += process.waiting_time
+        
+        # Tính Thời Gian Chờ Trung Bình
+        avg_waiting_time = total_waiting_time / num_processes
+        
+        # Hiển thị thông báo thời gian chờ trung bình
+        messagebox.showinfo("Kết quả", f"Thời Gian Chờ Trung Bình: {avg_waiting_time:.2f}")
         
     except ValueError:
         messagebox.showerror("Lỗi", "Vui lòng nhập giá trị hợp lệ!")
@@ -112,11 +121,11 @@ def create_process_inputs():
     num_processes = int(num_processes_entry.get())
     
     for i in range(num_processes):
-        tk.Label(root, text=f"Burst Time cho P{i+1}:").grid(row=3+i, column=0, padx=10, pady=5)
+        tk.Label(root, text=f"Thời Gian Thực Thi cho P{i+1}:").grid(row=3+i, column=0, padx=10, pady=5)
         burst_entry = tk.Entry(root)
         burst_entry.grid(row=3+i, column=1)
         
-        tk.Label(root, text=f"Arrival Time cho P{i+1}:").grid(row=3+i, column=2, padx=10, pady=5)
+        tk.Label(root, text=f"Thời Gian Đến cho P{i+1}:").grid(row=3+i, column=2, padx=10, pady=5)
         arrival_entry = tk.Entry(root)
         arrival_entry.grid(row=3+i, column=3)
         
@@ -135,13 +144,14 @@ reset_button = tk.Button(root, text="Đặt lại", command=reset_form)
 reset_button.grid(row=3+11, column=1, pady=10)
 
 # Bảng hiển thị kết quả
-result_table = ttk.Treeview(root, columns=("Process ID", "Burst Time", "Arrival Time", "Completion Time", "Waiting Time"), show="headings", height=8)
-result_table.heading("Process ID", text="Process ID")
-result_table.heading("Burst Time", text="Burst Time")
-result_table.heading("Arrival Time", text="Arrival Time")
-result_table.heading("Completion Time", text="Completion Time")
-result_table.heading("Waiting Time", text="Waiting Time")
+result_table = ttk.Treeview(root, columns=("Mã Tiến Trình", "Thời Gian Thực Thi", "Thời Gian Đến", "Thời Gian Hoàn Thành", "Thời Gian Chờ"), show="headings", height=8)
+result_table.heading("Mã Tiến Trình", text="Mã Tiến Trình")
+result_table.heading("Thời Gian Thực Thi", text="Thời Gian Thực Thi")
+result_table.heading("Thời Gian Đến", text="Thời Gian Đến")
+result_table.heading("Thời Gian Hoàn Thành", text="Thời Gian Hoàn Thành")
+result_table.heading("Thời Gian Chờ", text="Thời Gian Chờ")
 result_table.grid(row=4+10, column=0, columnspan=5, padx=10, pady=10)
+
 
 # Chạy chương trình
 root.mainloop()
